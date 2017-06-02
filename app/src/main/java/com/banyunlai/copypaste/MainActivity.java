@@ -12,10 +12,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements ClipboardManager.OnPrimaryClipChangedListener{
     private ClipboardManager cb = null;
+    private ListView listView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,11 @@ public class MainActivity extends AppCompatActivity implements ClipboardManager.
 
         cb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         cb.addPrimaryClipChangedListener(this);
+
+        listView = (ListView) findViewById(R.id.listView_main);
+        listView.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1,
+                new String[] {"a", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "c"}));
     }
 
     @Override
