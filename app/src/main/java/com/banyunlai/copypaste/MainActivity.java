@@ -1,15 +1,21 @@
 package com.banyunlai.copypaste;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ClipboardManager.OnPrimaryClipChangedListener{
+    private ClipboardManager cb = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        cb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        cb.addPrimaryClipChangedListener(this);
     }
 
     @Override
@@ -39,5 +48,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onPrimaryClipChanged() {
+        Log.d("Pluto", "here clip changed");
+
+        ClipData clip = cb.getPrimaryClip();
+        Toast.makeText(this, clip.getItemAt(0).getText(), Toast.LENGTH_SHORT).show();
     }
 }
